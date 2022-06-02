@@ -40,13 +40,14 @@ contract Raffle {
             console.log(winner);
         // Gets the prize amount
             uint256 prizeAmount = address(this).balance;
-        // Sends the money to the winners address with the prize amount
-            (bool success, ) = (winner).call{value: prizeAmount}(""); 
-            require(success, "Failed to withdraw money from the contact");
-        //Charges a 1% fee for the house
+        //Charges a 1% fee for the house along with the amount
             uint256 feeAmount = (address(this).balance / 100);
             (bool success, ) = (house).call{value: feeAmount}(""); 
             require(success, "Failed to withdraw money from the contact");
+        // Sends the remaining money to the winners address with the prize amount
+            (bool success, ) = (winner).call{value: prizeAmount}(""); 
+            require(success, "Failed to withdraw money from the contact");
+        
 
             delete entries;
         }
