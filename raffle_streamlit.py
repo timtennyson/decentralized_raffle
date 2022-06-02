@@ -31,27 +31,33 @@ Tickets = st.sidebar.number_input("Tickets",min_value=1,step=1)
 #Creating a streamlit data input  for Amount
 Cost = (Tickets*price_per_ticket)
 
+if 'purchased' not in st.session_state: 
+    st.session_state.purchased=False
 
+def callback(): 
+    st.session_state.purchased=True
 
 #Displaying the purchase button and asking for confirmation
-if st.sidebar.button("Purchase"):
+purchased = st.sidebar.button("Purchase", on_click=callback)
+if purchased or st.session_state.purchased:
     st.write("Please confirm the following information:")
     st.write(f"Identification: {Identification}")
     st.write(f"Number of Tickets: {Tickets}")
     st.write(f"Your total cost is: {Cost} Pwei")
 
 #Confirmation button
-if st.button("Confirm"):
-    st.write(f" Congratulations {Identification}! You have purchased {Tickets} tickets for {Cost} Pwei.")
-    st.balloons()
-    
-    #Increasing the pot
-    pot += Cost
+    if st.button("Confirm"):
+        st.write(f" Congratulations {Identification}! You have purchased {Tickets} tickets for {Cost} Pwei.")
+        st.balloons()
 
-#Cancel button
-elif st.button("Cancel"):
-    st.write("Order Cancelled")
+        #Increasing the pot
+        pot += Cost
+        st.session_state.purchased=False
+
+    #Cancel button
+    elif st.button("Cancel"):
+        st.write("Order Cancelled")
+        st.session_state.purchased=False
 
 #Displaying the current pot
 st.sidebar.text(f"The current pot is {pot} Pei")
-
