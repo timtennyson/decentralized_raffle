@@ -1,10 +1,7 @@
 /*
 Raffle Engine
 ---------------------
-
 This is a solidity smart contract that accepts user addresses that are then a entered into a raffle. 
-
-
 */
 // SPDX-License-Identifier: UNLICENSED
 
@@ -14,10 +11,12 @@ import "hardhat/console.sol";
 
 contract Raffle {
  // House address for fees
-    address house =
+    address constant public house = 0x1aD214821F407698A3452fAa173D5067729Be983;
 
  // Stores entered public addresses
-    address[] entries;
+    address[]  entries;
+    address winner;
+    bool success;
 
     constructor() {
         console.log("Deployed!");
@@ -36,16 +35,16 @@ contract Raffle {
  //When the raffle hits the number of entries (in this case 5) it triggers the pick winner array
         if (entries.length >= 5) {
             uint winnerIndex = pickWinner();
-            address winner = entries[winnerIndex];
+            winner = entries[winnerIndex];
             console.log(winner);
         //Charges a 1% fee for the house along with the amount
             uint256 feeAmount = (address(this).balance / 100);
-            (bool success, ) = (house).call{value: feeAmount}(""); 
+            (success, ) = (house).call{value: feeAmount}(""); 
             require(success, "Failed to withdraw money from the contact");
         // Gets the remaining prize amount
             uint256 prizeAmount = address(this).balance;
         // Sends the money to the winners address with the prize amount
-            (bool success, ) = (winner).call{value: prizeAmount}(""); 
+            (success, ) = (winner).call{value: prizeAmount}(""); 
             require(success, "Failed to withdraw money from the contact");
         
 
