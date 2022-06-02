@@ -1,84 +1,59 @@
 /*
-Joint Savings Account
+Raffle Engine
 ---------------------
 
-This is a solidity smart contract that accepts two user addresses that are then able to control a joint savings account. The smart contract will use ether management functions to implement various requirements from the financial institution to provide the features of the joint savings account.
+This is a solidity smart contract that accepts user addresses that are then a entered into a raffle. 
 
 
 */
+// SPDX-License-Identifier: UNLICENSED
 
-pragma solidity ^0.5.0;
+pragma solidity ^0.8.0;
 
-// Define a new contract named `JointSavings`
-contract JointSavings {
+import "hardhat/console.sol";
 
-    /*
-    Inside the new contract define the following variables:
-    - Two variables of type `address payable` named `accountOne` and `accountTwo`
-    - A variable of type `address public` named `lastToWithdraw`
-    - Two variables of type `uint public` named `lastWithdrawAmount` and `contractBalance`.
-    */
-    address payable accountOne;
-    address payable accountTwo;
-    address public lastToWithdraw;
-    uint public lastWithdrawAmount; 
-    uint public contractBalance;
+contract Raffle {
+ // House address for fees
+    address house =
 
-    /*
-    Define a function named **withdraw** that will accept two arguments.
-    - A `uint` variable named `amount`
-    - A `payable address` named `recipient`
-    */
-    function withdraw(uint amount, address payable recipient) public {
+ // Stores entered public addresses
+    address[] entries;
 
-        /*
-        Define a `require` statement that checks if the `recipient` is equal to either `accountOne` or `accountTwo`. The `requiere` statement returns the text `"You don't own this account!"` if it does not.
-        */
-        require(recipient == accountOne || recipient == accountTwo, "You don't own this account");
+    constructor() {
+        console.log("Deployed!");
+    }
+ // This function returns a random number between 0 and the # of entries to select a winner
+    function pickWinner() private view returns (uint) {
+        uint random = uint(keccak256(abi.encodePacked(block.difficulty, block.timestamp, entries)));
+        uint index = random % entries.length;
+        return index;
+    }
+ // Public function can be called outside the contract with Remix, payable indicates that we can transfer eth to this contract when called
+    function enter() public payable {
+        require(msg.value >= 1 ether, "Pay 1 Ether or more to enter the raffle");
 
-        /*
-        Define a `require` statement that checks if the `balance` is sufficient to accomplish the withdraw operation. If there are insufficient funds, the text `Insufficient funds!` is returned.
-        */
-        require(contractBalance>=amount, "Insufficient funds!");
+        entries.push(msg.sender);
+ //When the raffle hits the number of entries (in this case 5) it triggers the pick winner array
+        if (entries.length >= 5) {
+            uint winnerIndex = pickWinner();
+            address winner = entries[winnerIndex];
+            console.log(winner);
+        // Gets the prize amount
+            uint256 prizeAmount = address(this).balance;
+        // Sends the money to the winners address with the prize amount
+            (bool success, ) = (winner).call{value: prizeAmount}(""); 
+            require(success, "Failed to withdraw money from the contact");
+        //Charges a 1% fee for the house
+            uint256 feeAmount = (address(this).balance / 100);
+            (bool success, ) = (house).call{value: feeAmount}(""); 
+            require(success, "Failed to withdraw money from the contact");
 
-        /*
-        Add and `if` statement to check if the `lastToWithdraw` is not equal to (`!=`) to `recipient` If `lastToWithdraw` is not equal, then set it to the current value of `recipient`.
-        */
-        if (lastToWithdraw != recipient) {
-            lastToWithdraw=  recipient;
+            delete entries;
         }
-
-        // Call the `transfer` function of the `recipient` and pass it the `amount` to transfer as an argument.
-        recipient.transfer(amount);
-
-        // Set  `lastWithdrawAmount` equal to `amount`
-        lastWithdrawAmount=amount;
-
-        // Call the `contractBalance` variable and set it equal to the balance of the contract by using `address(this).balance` to reflect the new balance of the contract.
-        contractBalance=address(this).balance;
     }
 
-    // Define a `public payable` function named `deposit`.
-    function deposit() public payable {
 
-        /*
-        Call the `contractBalance` variable and set it equal to the balance of the contract by using `address(this).balance`.
-        */
-        contractBalance = address(this).balance;
+    function getLength() public view returns (uint) {
+        return entries.length;
     }
-
-    /*
-    Define a `public` function named `setAccounts` that receive two `address payable` arguments named `account1` and `account2`.
-    */
-    function setAccounts(address payable account1, address payable account2) public{
-
-        // Set the values of `accountOne` and `accountTwo` to `account1` and `account2` respectively.
-        accountOne=account1;
-        accountTwo=account2;
-    }
-
-    /*
-    Finally, add the **default fallback function** so that your contract can store Ether sent from outside the deposit function.
-    */
-    function() external payable {}
 }
