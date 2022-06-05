@@ -54,8 +54,8 @@ if purchased or st.session_state.purchased:
         st.write(f" Congratulations {address}! You have purchased {Tickets} tickets for {Cost} ETH.")
         st.balloons()
 
-            tx_hash = contract.functions.Raffle(
-            contract_address
+        tx_hash = contract.functions.Raffle(
+        contract_address
         ).transact({"from": address, "value": Cost*1000000000000000000, "gas": 2000000})
         receipt = w3.eth.waitForTransactionReceipt(tx_hash)
 
