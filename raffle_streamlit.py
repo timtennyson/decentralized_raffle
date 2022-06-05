@@ -23,7 +23,7 @@ st.sidebar.text(f"Next drawing: {drawing_date}")
 st.sidebar.markdown("## Tickets are available at 1 Pwei")
 
 #Creating a streamlit data input  for sender
-Identification = st.sidebar.text_input("Identification")
+address = st.sidebar.text_input("Ethereum Address")
 
 #Creating a streamlit data input  for Receiver
 Tickets = st.sidebar.number_input("Tickets",min_value=1,step=1)
@@ -41,13 +41,13 @@ def callback():
 purchased = st.sidebar.button("Purchase", on_click=callback)
 if purchased or st.session_state.purchased:
     st.write("Please confirm the following information:")
-    st.write(f"Identification: {Identification}")
+    st.write(f"Ethereum Address: {address}")
     st.write(f"Number of Tickets: {Tickets}")
     st.write(f"Your total cost is: {Cost} Pwei")
 
 #Confirmation button
     if st.button("Confirm"):
-        st.write(f" Congratulations {Identification}! You have purchased {Tickets} tickets for {Cost} Pwei.")
+        st.write(f" Congratulations {address}! You have purchased {Tickets} tickets for {Cost} Pwei.")
         st.balloons()
 
         #Increasing the pot
