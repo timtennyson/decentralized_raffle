@@ -4,6 +4,7 @@ from typing import Any, List
 from datetime import datetime, timedelta
 import pandas as pd
 import hashlib
+from web3 import web3
 
 #Price per ticket in Pwei
 price_per_ticket = 1
@@ -43,11 +44,11 @@ if purchased or st.session_state.purchased:
     st.write("Please confirm the following information:")
     st.write(f"Ethereum Address: {address}")
     st.write(f"Number of Tickets: {Tickets}")
-    st.write(f"Your total cost is: {Cost} Pwei")
+    st.write(f"Your total cost is: {Cost} ETH")
 
 #Confirmation button
     if st.button("Confirm"):
-        st.write(f" Congratulations {address}! You have purchased {Tickets} tickets for {Cost} Pwei.")
+        st.write(f" Congratulations {address}! You have purchased {Tickets} tickets for {Cost} ETH.")
         st.balloons()
 
         #Increasing the pot
@@ -60,4 +61,4 @@ if purchased or st.session_state.purchased:
         st.session_state.purchased=False
 
 #Displaying the current pot
-st.sidebar.text(f"The current pot is {pot} Pei")
+st.sidebar.text(f"The current pot is {pot} ETH")
