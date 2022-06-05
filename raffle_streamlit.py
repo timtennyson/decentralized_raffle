@@ -4,7 +4,7 @@ from typing import Any, List
 from datetime import datetime, timedelta
 import pandas as pd
 import hashlib
-from web3 import web3
+
 
 #Price per ticket in Pwei
 price_per_ticket = 1
