@@ -5,7 +5,6 @@ from typing import Any, List
 from datetime import datetime, timedelta
 import pandas as pd
 import hashlib
-from bip44 import Wallet
 from web3 import Account
 from web3 import middleware
 from web3.gas_strategies.time_based import medium_gas_price_strategy
