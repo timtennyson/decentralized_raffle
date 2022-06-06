@@ -1,27 +1,27 @@
-import streamlit as st
-import json
-from dataclasses import dataclass
-from typing import Any, List
-from datetime import datetime, timedelta
-import pandas as pd
-import hashlib
-from web3 import Account
-from web3 import middleware
-from web3.gas_strategies.time_based import medium_gas_price_strategy
-from web3 import Web3
+# import streamlit as st
+# import json
+# from dataclasses import dataclass
+# from typing import Any, List
+# from datetime import datetime, timedelta
+# import pandas as pd
+# import hashlib
+# from web3 import Account
+# from web3 import middleware
+# from web3.gas_strategies.time_based import medium_gas_price_strategy
+# from web3 import Web3
 
-#Import the functions from ethereum.py
-#from ethereum import w3, generate_account, get_balance, send_transaction
-#from web3 import Web3
+# #Import the functions from ethereum.py
+# #from ethereum import w3, generate_account, get_balance, send_transaction
+# #from web3 import Web3
 
-#Connect to web3 provider, input local host here!
-w3 = Web3(Web3.HTTPProvider('http://127.0.0.1:8545'))
+# #Connect to web3 provider, input local host here!
+# w3 = Web3(Web3.HTTPProvider('http://127.0.0.1:8545'))
 
 
-#Set the contract address (input as deployed on local network-- copy from Remix)
-receiver = 0x7912bd9E742a81c620FF0FcF1A9Dc6b9De543f69
+# #Set the contract address (input as deployed on local network-- copy from Remix)
+# receiver = 0x7912bd9E742a81c620FF0FcF1A9Dc6b9De543f69
 
-st.write(account.address)
+# st.write(account.address)
 
 # #Price per ticket in ETH
 # price_per_ticket = 1
@@ -110,55 +110,55 @@ st.write(account.address)
 
 
 
-# # Imports
-# import streamlit as st
+# Imports
+import streamlit as st
 
-# # Import the functions from ethereum.py
-# from ethereum import w3, generate_account, get_balance, send_transaction
-# from web3 import Web3
+# Import the functions from ethereum.py
+from ethereum import w3, generate_account, get_balance, send_transaction
+from web3 import Web3
 
-# w3 = Web3(Web3.HTTPProvider('http://127.0.0.1:7545'))
+w3 = Web3(Web3.HTTPProvider('http://127.0.0.1:7545'))
 
-# # Streamlit application headings
-# st.markdown("# Automating Ethereum with Streamlit!")
+# Streamlit application headings
+st.markdown("# Automating Ethereum with Streamlit!")
 
-# # Generate the Ethereum account
-# account = generate_account(w3)
+# Generate the Ethereum account
+account = generate_account(w3)
 
-# # The Ethereum Account Address
-# st.text("\n")
-# st.text("\n")
-# st.markdown("## Ethereum Account Address:")
+# The Ethereum Account Address
+st.text("\n")
+st.text("\n")
+st.markdown("## Ethereum Account Address:")
 
-# # Write the Ethereum account address to the Streamlit page
-# st.write(account.address)
+# Write the Ethereum account address to the Streamlit page
+st.write(account.address)
 
-# # Display the Etheremum Account balance
-# st.text("\n")
-# st.text("\n")
-# st.markdown("## Ethereum Account Balance:")
+# Display the Etheremum Account balance
+st.text("\n")
+st.text("\n")
+st.markdown("## Ethereum Account Balance:")
 
-# # Call the get_balance function and write the account balance to the screen
-# ether_balance = get_balance(w3, account.address)
-# st.write(ether_balance)
+# Call the get_balance function and write the account balance to the screen
+ether_balance = get_balance(w3, account.address)
+st.write(ether_balance)
 
-# # An Ethereum Transaction
-# st.text("\n")
-# st.text("\n")
-# st.markdown("## An Ethereum Transaction")
+# An Ethereum Transaction
+st.text("\n")
+st.text("\n")
+st.markdown("## An Ethereum Transaction")
 
-# # Create inputs for the receiver address and ether amount
-# receiver = st.text_input("Input the receiver address")
-# ether = st.number_input("Input the amount of ether")
+# Create inputs for the receiver address and ether amount
+receiver = st.text_input("Input the receiver address")
+ether = st.number_input("Input the amount of ether")
 
-# # Create a button that calls the `send_transaction` function and returns the transaction hash
-# if st.button("Send Transaction"):
+# Create a button that calls the `send_transaction` function and returns the transaction hash
+if st.button("Send Transaction"):
 
-#     transaction_hash = send_transaction(w3, account, receiver, ether)
+    transaction_hash = send_transaction(w3, account, receiver, ether)
 
-#     # Display the Etheremum Transaction Hash
-#     st.text("\n")
-#     st.text("\n")
-#     st.markdown("## Ethereum Transaction Hash:")
+    # Display the Etheremum Transaction Hash
+    st.text("\n")
+    st.text("\n")
+    st.markdown("## Ethereum Transaction Hash:")
 
-#     st.write(transaction_hash)
+    st.write(transaction_hash)
