@@ -5,10 +5,15 @@ from typing import Any, List
 from datetime import datetime, timedelta
 import pandas as pd
 import hashlib
+from bip44 import Wallet
+from web3 import Account
+from web3 import middleware
+from web3.gas_strategies.time_based import medium_gas_price_strategy
+from web3 import Web3
 
 #Import the functions from ethereum.py
-from ethereum import w3, generate_account, get_balance, send_transaction
-from web3 import Web3
+#from ethereum import w3, generate_account, get_balance, send_transaction
+#from web3 import Web3
 
 #Connect to web3 provider, input local host here!
 w3 = Web3(Web3.HTTPProvider('http://127.0.0.1:8545'))
